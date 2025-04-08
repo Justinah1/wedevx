@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Lead Management System{% endblock %}
+
+{% block content %}
+<h1>Lead Management Dashboard</h1>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <span class="badge bg-primary">Total: {{ leads|length }}</span>
+        <span class="badge bg-warning">Pending: {{ leads|selectattr('state', 'equalto', LeadState.PENDING)|list|length }}</span>
+        <span class="badge bg-success">Reached Out: {{ leads|selectattr('state', 'equalto', LeadState.REACHED_OUT)|list|length }}</span>
+    </div>
+    <div class="btn-group" role="group">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">All</a>
+        <a href="{{ url_for('dashboard') }}?state=PENDING" class="btn btn-outline-secondary">Pending</a>
+        <a href="{{ url_for('dashboard') }}?state=REACHED_OUT" class="btn btn-outline-secondary">Reached Out</a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if leads %}
+                {% for lead in leads %}
+                <tr>
+                    <td>{{ lead.first_name }} {{ lead.last_name }}</td>
+                    <td>{{ lead.email }}</td>
+                    <td>
+                        {% if lead.state == LeadState.PENDING %}
+                        <span class="badge bg-warning">Pending</span>
+                        {% else %}
+                        <span class="badge bg-success">Reached Out</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ lead.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="{{ url_for('view_lead', lead_id=lead.id) }}" class="btn btn-primary btn-sm">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No leads found</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

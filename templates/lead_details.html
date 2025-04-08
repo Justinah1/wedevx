@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Lead Details - Lead Management System{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>Lead Details</h2>
+        <span class="badge {% if lead.state == LeadState.PENDING %}bg-warning{% else %}bg-success{% endif %}">
+            {{ lead.state.value }}
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h4>Personal Information</h4>
+                <p><strong>Name:</strong> {{ lead.first_name }} {{ lead.last_name }}</p>
+                <p><strong>Email:</strong> {{ lead.email }}</p>
+                <p>
+                    <strong>Resume:</strong> 
+                    <a href="{{ url_for('static', filename='uploads/' + lead.resume_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        View Resume
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h4>Tracking Information</h4>
+                <p><strong>Created:</strong> {{ lead.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p><strong>Last Updated:</strong> {{ lead.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                {% if lead.updated_by %}
+                <p><strong>Updated By:</strong> {{ lead.user.full_name }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <h4>Notes</h4>
+        <p>{{ lead.notes or 'No notes yet.' }}</p>
+
+        <hr class="my-4">
+
+        <h4>Update Lead</h4>
+        <form method="POST" action="{{ url_for('update_lead', lead_id=lead.id) }}">
+            <div class="mb-3">
+                <label for="state" class="form-label">Status</label>
+                <select class="form-select" id="state" name="state">
+                    {% for state in LeadState %}
+                    <option value="{{ state.name }}" {% if lead.state == state %}selected{% endif %}>
+                        {{ state.value }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="4">{{ lead.notes or '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
