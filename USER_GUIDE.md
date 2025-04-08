@@ -104,5 +104,3 @@ The lead details page provides complete information about a specific lead:
 - **Login Problems**: Use the password reset link if you've forgotten your credentials
 - **Missing Leads**: Ensure you haven't applied a filter that's hiding the expected leads
 - **Resume Download Issues**: Contact IT support if you're unable to download files
-
-For technical support: support@example.com
