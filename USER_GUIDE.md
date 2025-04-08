@@ -6,7 +6,7 @@ This guide provides detailed instructions for both prospects submitting their in
 
 ### Accessing the Submission Form
 
-The lead submission form is available at the homepage of the application (http://example.com/).
+The lead submission form is available at the homepage of the application.
 
 ### Filling Out the Form
 
@@ -30,7 +30,7 @@ The lead submission form is available at the homepage of the application (http:/
 
 ### Accessing the System
 
-1. Navigate to the login page (http://example.com/login)
+1. Navigate to the login page 
 2. Enter your email address and password
 3. Click "Login" to access the dashboard
 
